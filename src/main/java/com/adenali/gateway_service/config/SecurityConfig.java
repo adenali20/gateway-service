@@ -60,7 +60,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 1. Define allowed origins (or use addAllowedOriginPattern for wildcards)
-        config.setAllowedOrigins(Arrays.asList( serviceUrl+":3000"));
+        config.setAllowedOrigins(Arrays.asList( serviceUrl+":3000","http://dev.adenali.com:3000"));
 
         // 2. Define allowed methods
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
