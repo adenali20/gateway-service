@@ -66,8 +66,13 @@ public class UserHeaderFilter implements GlobalFilter, Ordered {
                 log.error("Invalid JWT token: {}", e.getMessage());
                 return chain.filter(exchange);
             }
+        }else{
+            ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                    .header("X-Gateway-Secret", SECRET)
+                    .build();
+
+            return chain.filter(exchange.mutate().request(modifiedRequest).build());
         }
-        return chain.filter(exchange);
     }
     @Override
     public int getOrder() {
