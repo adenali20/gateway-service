@@ -58,7 +58,7 @@ public class UserHeaderFilter implements GlobalFilter, Ordered {
                         .header("X-authorities", authorities)
                         .header("X-Gateway-Secret", SECRET)
                         .build();
-
+                log.info("User Header Filter: added headers");
                 return chain.filter(exchange.mutate().request(modifiedRequest).build());
 
             } catch (Exception e) {
