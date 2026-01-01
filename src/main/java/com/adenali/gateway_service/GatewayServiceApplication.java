@@ -42,7 +42,7 @@ public class GatewayServiceApplication {
                 .route("auth-service", r -> r
                         .path("/api/authservice/**")
                         .filters(f -> f
-                                .rewritePath("/api/authservice/(?<segment>.*)", "/${segment}")
+                                .rewritePath("/(?<segment>.*)", "/api/authservice/${segment}")
                                 .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST")
                         )
