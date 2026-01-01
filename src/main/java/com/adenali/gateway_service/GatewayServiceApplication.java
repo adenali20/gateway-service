@@ -39,10 +39,16 @@ public class GatewayServiceApplication {
                         .uri(deviceServiceUrl))
 
                 // Route for auth-service
-                .route("auth-service", r -> r.path("/api/authservice/**")
-                        .filters(f -> f.dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
-                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST"))
-                        .uri(authServiceUrl))
+                .route("auth-service", r -> r
+                        .path("/api/authservice/**")
+                        .filters(f -> f
+                                .rewritePath("/api/authservice/(?<segment>.*)", "/${segment}")
+                                .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST")
+                        )
+                        .uri("http://auth-service:8050")
+                )
+
 
                 .build();
     }

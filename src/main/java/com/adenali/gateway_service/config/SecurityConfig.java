@@ -18,6 +18,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -60,8 +61,12 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 1. Define allowed origins (or use addAllowedOriginPattern for wildcards)
-        config.setAllowedOrigins(Arrays.asList( serviceUrl));
+//        config.setAllowedOrigins(Arrays.asList( serviceUrl));
 
+        config.setAllowedOrigins(List.of(
+                "https://dev.adenali.com",
+                "http://localhost:3000"
+        ));
         // 2. Define allowed methods
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
