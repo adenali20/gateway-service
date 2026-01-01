@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GatewayServiceApplication {
     private static final Logger log = LoggerFactory.getLogger(GatewayServiceApplication.class);
-    @Value("${service.url}")
-    private String serviceUrl;
+//    @Value("${service.url}")
+    private String serviceUrl="http://127.0.0.1";
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayServiceApplication.class, args);
 	}
