@@ -34,6 +34,7 @@ public class UserHeaderFilter implements GlobalFilter, Ordered {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
+            log.info("User Header Filter: token");
 
             try {
                 // Generate a secure SecretKey from your string
@@ -66,6 +67,7 @@ public class UserHeaderFilter implements GlobalFilter, Ordered {
                 return chain.filter(exchange);
             }
         }else{
+            log.info("User Header Filter: no token");
             ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                     .header("X-Gateway-Secret", SECRET)
                     .build();
