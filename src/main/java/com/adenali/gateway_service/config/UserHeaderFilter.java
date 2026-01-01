@@ -20,7 +20,6 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 
 @Component
-@RefreshScope
 public class UserHeaderFilter implements GlobalFilter, Ordered {
 
     private static final Logger log = LoggerFactory.getLogger(UserHeaderFilter.class);
@@ -35,7 +34,6 @@ public class UserHeaderFilter implements GlobalFilter, Ordered {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            log.info("User Header Filter: token: {}", token);
 
             try {
                 // Generate a secure SecretKey from your string
