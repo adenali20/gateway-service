@@ -19,7 +19,7 @@ public class GatewayServiceApplication {
 	}
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-        log.info("Inside main : Service URL: "+serviceUrl);
+
         return builder.routes()
                 .route("fleetms", r -> r.path("/api/fleetservice/**")
                         .filters(f -> f.dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
