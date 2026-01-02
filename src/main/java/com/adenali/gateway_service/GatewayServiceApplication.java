@@ -2,6 +2,7 @@ package com.adenali.gateway_service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -12,11 +13,14 @@ import org.springframework.context.annotation.Bean;
 public class GatewayServiceApplication {
 
     private static final Logger log = LoggerFactory.getLogger(GatewayServiceApplication.class);
+    @Value("${services.auth.url}")
+    private String authServiceUrl;
 
-    // Directly use Docker Compose service names
-    private final String authServiceUrl = "http://auth-service:8050";
-    private final String fleetServiceUrl = "http://fleet-service:8090";
-    private final String deviceServiceUrl = "http://fleet-service:8090"; // same as fleet
+    @Value("${services.fleet.url}")
+    private String fleetServiceUrl;
+
+    @Value("${services.device.url}")
+    private String deviceServiceUrl;
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayServiceApplication.class, args);
@@ -45,7 +49,7 @@ public class GatewayServiceApplication {
                                 .dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST")
                         )
-                        .uri("http://auth-service:8050")
+                        .uri(authServiceUrl)
                 )
 
 

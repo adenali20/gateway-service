@@ -39,3 +39,11 @@ jwt:
 
 service:
   url: {SERVICE_URL}
+
+services:
+  auth:
+    url: http://auth-service:8050
+  fleet:
+    url: http://fleet-service:8090
+  device:
+    url: http://fleet-service:8090
