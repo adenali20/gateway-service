@@ -36,6 +36,11 @@ public class GatewayServiceApplication {
                                 .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST"))
                         .uri(fleetServiceUrl))
 
+                // Route for fleet-service
+                .route("graphql", r -> r.path("/graphql")
+                        .filters(f -> f.dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
+                                .dedupeResponseHeader("Access-Control-Allow-Credentials", "RETAIN_FIRST"))
+                        .uri(fleetServiceUrl))
                 // Route for device-service
                 .route("device-service", r -> r.path("/api/deviceservice/**")
                         .filters(f -> f.dedupeResponseHeader("Access-Control-Allow-Origin", "RETAIN_FIRST")
