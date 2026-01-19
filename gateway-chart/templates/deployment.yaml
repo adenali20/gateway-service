@@ -20,15 +20,12 @@ spec:
             - containerPort: 8080
 
           env:
-            {{- range $key, $value := .Values.env }}
-            - name: {{ $key }}
-              value: "{{ $value }}"
-            {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
 
-            {{- if .Values.envFromSecret }}
-            - name: JWT_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.envFromSecret }}
-                  key: JWT_SECRET_KEY
-            {{- end }}
+            - name: SERVICE_URL
+              value: "http://dev.adenali.com"
+
+          envFrom:
+            - secretRef:
+                name: gateway-secrets
