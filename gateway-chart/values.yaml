@@ -11,6 +11,7 @@ service:
   type: LoadBalancer
   port: 8080
 
-env: {}
+env:
+  SPRING_PROFILES_ACTIVE: dev
 
 envFromSecret: ""
