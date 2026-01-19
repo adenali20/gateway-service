@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+  repository: adenli/gateway-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+env: {}
+
+envFromSecret: ""

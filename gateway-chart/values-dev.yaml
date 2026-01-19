@@ -1,0 +1,14 @@
+replicaCount: 1
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+env:
+  SPRING_PROFILES_ACTIVE: dev
+  SERVICE_URL: http://161.35.252.111
+
+# Optional: secret reference if gateway needs secrets
+envFromSecret: gateway-secrets
+
+

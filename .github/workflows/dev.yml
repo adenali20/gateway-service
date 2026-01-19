@@ -2,20 +2,20 @@ name: Java CI - Dev
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ["develop"]
   pull_request:
-    branches: [ "develop" ]
+    branches: ["develop"]
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your application code
+      # 1️⃣ Checkout code
       - uses: actions/checkout@v4
 
-      # 2️⃣ Set up JDK 17
+      # 2️⃣ Setup JDK
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -23,27 +23,50 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      # 3️⃣ Grant execute permission for Gradle wrapper
+      # 3️⃣ Gradle permissions
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
 
-      # 4️⃣ Build with Gradle
+      # 4️⃣ Build
       - name: Build with Gradle
         run: ./gradlew clean build -x test
 
-      # 5️⃣ Login to DockerHub
+      # 5️⃣ DockerHub login
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 6️⃣ Build & Push Dev Docker Image
+      # 6️⃣ Build & Push Docker Image
       - name: Build & Push Dev Docker Image
         run: |
           SHA=$(git rev-parse --short HEAD)
           IMAGE_NAME=adenli/gateway-service
           IMAGE_TAG=dev-$SHA
-          docker build -t $IMAGE_NAME:sha-$SHA .
-          docker tag $IMAGE_NAME:sha-$SHA $IMAGE_NAME:$IMAGE_TAG
-          docker push $IMAGE_NAME:sha-$SHA
+
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
           docker push $IMAGE_NAME:$IMAGE_TAG
+
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-          echo "✅ Built and pushed: $IMAGE_NAME:$IMAGE_TAG"
+          echo "✅ Pushed $IMAGE_NAME:$IMAGE_TAG"
+
+      # 7️⃣ Setup kubeconfig (NO doctl)
+      - name: Configure kubectl
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.DO_KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+          kubectl get nodes
+
+      # 8️⃣ Install Helm
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          helm version
+
+      # 9️⃣ Deploy Gateway using Helm
+      - name: Deploy Gateway to Dev
+        run: |
+          helm upgrade --install gateway-dev ./gateway-chart \
+            -n dev \
+            --create-namespace \
+            --set image.repository=adenli/gateway-service \
+            --set image.tag=${IMAGE_TAG}
