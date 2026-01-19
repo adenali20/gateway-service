@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll() // Allow browser preflights
                         .pathMatchers("/api/authservice/user/login").permitAll() // Allow login
                         .pathMatchers("/api/authservice/user/signup").permitAll() // Allow login
-                                   .pathMatchers("/api/fleetservice/fleet").permitAll()
+                                   .pathMatchers("/api/fleetservice/**").permitAll()
                         .anyExchange().authenticated() // Secure everything else
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
