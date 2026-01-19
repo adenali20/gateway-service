@@ -42,7 +42,7 @@ service:
 
 services:
   auth:
-    url: http://auth-service:8050
+    url: http://authservice-auth-dev:8050
   fleet:
     url: http://fleetservice-fleetservice-dev:8090
   device:
