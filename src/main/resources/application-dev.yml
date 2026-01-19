@@ -44,6 +44,6 @@ services:
   auth:
     url: http://auth-service:8050
   fleet:
-    url: http://161.35.252.111:8090
+    url: http://fleetservice-fleetservice-dev:8090
   device:
-    url: http://fleet-service:8090
+    url: http://fleetservice-fleetservice-dev:8090
