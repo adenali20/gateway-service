@@ -67,7 +67,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "https://dev.adenali.com",
                 "http://localhost:3000",
-            "http://134.199.176.191:3000"
+            "http://134.199.189.92:3000"
         ));
         // 2. Define allowed methods
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
